@@ -10,12 +10,16 @@ module.exports = (message, client) => {
   fs.readdir(`${__dirname}/../commands`, (err, commands) => {
     if (err) console.error(err);
 
-    commands.map(file => {
+    commands.map(async file => {
       if (!file.endsWith('.js')) return;
       const commandName = file.replace('.js', '');
-      const commandFunc = require(`${__dirname}/../commands/${file}`);
+      const commandFile = require(`${__dirname}/../commands/${file}`);
       if (command === commandName) {
-        commandFunc.run(message, client, args, true);
+        if (!message.member.permissions.has(commandFile.permission)) {
+          return await message.reply(`<:NotLikeThis:859024566860120064> **${message.author.username}**, vous n'avez pas la permission d'utiliser cette commande !`)
+        }
+        
+        commandFile.run(message, client, args, true);
       }
     });
   });

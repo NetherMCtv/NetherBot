@@ -5,13 +5,14 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('slowmode')
     .setDescription('Définir le temps du mode lent')
-    .setDefaultPermission(false)
     .addIntegerOption(option => {
       return option
         .setName('secondes')
         .setDescription('Temps du mode lent (0 pour désactiver)')
         .setRequired(true);
     }),
+
+  permission: 'MANAGE_CHANNELS',
 
   async run(interaction, client, args, isMessage) {
     const channel = isMessage ? interaction.channel.id : interaction.channelId;
