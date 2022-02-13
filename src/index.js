@@ -7,7 +7,7 @@ const { Routes } = require('discord-api-types/v9');
 require('dotenv').config();
 
 const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]
 });
 
 fs.readdir(`${__dirname}/events`, (err, events) => {
