@@ -25,7 +25,6 @@ fs.readdir(`${__dirname}/events`, (err, events) => {
 const commands = [];
 const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js'));
 
-// Place your client and guild ids here
 const clientId = '855849764997824532';
 const guildId = '853738781541924894';
 
@@ -43,8 +42,8 @@ const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN);
 		await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
 
 		console.log('Successfully reloaded application slash commands!');
-	} catch (error) {
-		console.error(error);
+	} catch (err) {
+		console.error(err);
 	}
 })();
 
