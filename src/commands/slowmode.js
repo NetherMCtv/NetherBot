@@ -1,46 +1,30 @@
-const Command = require('../helpers/Command');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { isNegativeNumber } = require('../helpers/numbers');
 
-module.exports = class SlowModeCommand extends Command {
-  constructor() {
-    super();
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName('slowmode')
+    .setDescription('Définir le temps du mode lent')
+    .setDefaultPermission(false)
+    .addIntegerOption(option => {
+      return option
+        .setName('secondes')
+        .setDescription('Temps du mode lent (0 pour désactiver)')
+        .setRequired(true);
+    }),
 
-    this.setHelp({
-      name: 'slowmode',
-      description: 'Définir le temps du mode lent',
-      default_permission: false,
-      options: [
-        {
-          type: 4,
-          name: 'secondes',
-          description: 'Temps du mode lent (0 pour désactiver)',
-          required: true
-        }
-      ]
-    });
-    this.setPermission([
-      {
-        type: 1,
-        id: '855852738544926771',
-        permission: true
-      }
-    ]);
-  }
-
-  run(interaction, client, args, isMessage) {
-    const channel = isMessage ? interaction.channel.id : interaction.channel_id;
+  async run(interaction, client, args, isMessage) {
+    const channel = isMessage ? interaction.channel.id : interaction.channelId;
     const rateLimit = parseInt(isMessage ? args[0] : args[0].value);
-    if (Math.sign(rateLimit) === -1 || isNaN(Math.sign(rateLimit))) {
-      return this.returnContentMessage(interaction, '<a:no:859024721282203649> **Le nombre que vous avez donné n\'est pas valide**');
+
+    if (isNegativeNumber(rateLimit)) {
+      return await interaction.reply('<a:no:859024721282203649> **Le nombre que vous avez donné n\'est pas valide**');
     }
     client.channels.cache.get(channel)?.setRateLimitPerUser(rateLimit);
 
     if (rateLimit === 0) {
-      return this.returnContentMessage(interaction, '<a:yes:859024680489189388> **Le mode lent a bien été désactivé**');
+      return await interaction.reply('<a:yes:859024680489189388> **Le mode lent a bien été désactivé**');
     }
-    return this.returnContentMessage(
-      interaction,
-      `<a:yes:859024680489189388> **Le mode lent a été bien défini à ${rateLimit} seconde${rateLimit <= 1 ? '' : 's'}**`
-    );
+    return await interaction.reply(`<a:yes:859024680489189388> **Le mode lent a été bien défini à ${rateLimit} seconde${rateLimit <= 1 ? '' : 's'}**`);
   }
-
-}
+};
