@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 module.exports = (interaction, client) => {
-	if (!interaction.isCommand()) return;
+  if (!interaction.isCommand()) return;
 
   const command = interaction.commandName.toLowerCase();
   const args = interaction.options._hoistedOptions;

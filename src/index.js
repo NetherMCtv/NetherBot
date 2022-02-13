@@ -29,22 +29,22 @@ const clientId = '855849764997824532';
 const guildId = '853738781541924894';
 
 for (const file of commandFiles) {
-	const command = require(`${__dirname}/commands/${file}`);
-	commands.push(command.data.toJSON());
+  const command = require(`${__dirname}/commands/${file}`);
+  commands.push(command.data.toJSON());
 }
 
 const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN);
 
 (async () => {
-	try {
-		console.log('Started refreshing application slash commands...');
+  try {
+    console.log('Started refreshing application slash commands...');
 
-		await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
+    await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
 
-		console.log('Successfully reloaded application slash commands!');
-	} catch (err) {
-		console.error(err);
-	}
+    console.log('Successfully reloaded application slash commands!');
+  } catch (err) {
+    console.error(err);
+  }
 })();
 
 client.login(process.env.BOT_TOKEN);
