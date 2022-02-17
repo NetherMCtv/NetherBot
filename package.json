@@ -2,6 +2,7 @@
   "name": "netherbot",
   "version": "1.0.0",
   "main": "src/index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "dev": "nodemon src/index.js"
   },
