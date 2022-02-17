@@ -14,6 +14,8 @@ module.exports = {
 
   permission: 'MANAGE_CHANNELS',
 
+  canBeUsedEverywhere: false,
+
   async run(interaction, client, args, isMessage) {
     const channel = isMessage ? interaction.channel.id : interaction.channelId;
     const rateLimit = parseInt(isMessage ? args[0] : args[0].value);

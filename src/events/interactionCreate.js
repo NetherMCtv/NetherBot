@@ -16,6 +16,7 @@ module.exports = (interaction, client) => {
 
       if (command === commandName) {
         if (
+          !commandFile.canBeUsedEverywhere &&
           interaction.channelId !== '854063459259645962' && // #commandes
           interaction.channelId !== '863805344622706709' && // #général-dev
           interaction.channelId !== '942391531774562364' && // #tests-netherbot

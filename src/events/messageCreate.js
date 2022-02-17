@@ -17,6 +17,7 @@ module.exports = async (message, client) => {
       const commandFile = require(`${__dirname}/../commands/${file}`);
       if (command === commandName) {
         if (
+          !commandFile.canBeUsedEverywhere &&
           message.channel.id !== '854063459259645962' && // #commandes
           message.channel.id !== '863805344622706709' && // #général-dev
           message.channel.id !== '942391531774562364' && // #tests-netherbot
