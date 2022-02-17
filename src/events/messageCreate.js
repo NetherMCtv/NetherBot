@@ -29,7 +29,7 @@ module.exports = async (message, client) => {
           await message.delete();
           return;
         }
-        if (!message.member.permissions.has(commandFile.permission)) {
+        if (commandFile.permission && !message.member.permissions.has(commandFile.permission)) {
           return await message.reply(`<:NotLikeThis:859024566860120064> **${message.author.username}**, vous n'avez pas la permission d'utiliser cette commande !`)
         }
         

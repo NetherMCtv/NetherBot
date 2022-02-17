@@ -30,7 +30,7 @@ module.exports = (interaction, client) => {
         }
 
         if (!client.application?.owner) await client.application?.fetch();
-        if (!interaction.member.permissions.has(commandFile.permission)) {
+        if (commandFile.permission && !interaction.member.permissions.has(commandFile.permission)) {
           return await interaction.reply(`<:NotLikeThis:859024566860120064> **${interaction.member.user.username}**, vous n'avez pas la permission d'utiliser cette commande !`)
         }
 
