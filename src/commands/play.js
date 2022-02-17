@@ -32,8 +32,51 @@ module.exports = {
 
     const stream = ytdl(url, {
       filter: 'audioonly',
-      lang: 'fr'
+      lang: 'fr',
+      // Source : https://github.com/fent/node-ytdl-core/issues/902#issuecomment-889326785
+      highWaterMark: 1 << 25
     });
+
+    stream.on('error', err => client.channels.cache.get(interaction.channelId)?.send(err));
+
+    let size;
+    stream.on('response', function(res) {
+      size = res.headers['content-length'];
+      console.log(`Started to load "${videoInfo.videoDetails.title}" with ${size} bytes`);
+    });
+
+    let dataEmitted = 0;
+    stream.on('data', function(chunk) {
+      dataEmitted += chunk.length;
+      // console.log('on data', chunk.length, dataEmitted);
+    });
+
+    const wait = require('util').promisify(setTimeout);
+    stream.on('end', async function() {
+      console.log(`Finished to load "${videoInfo.videoDetails.title}" with ${dataEmitted} bytes`);
+
+      await wait(15000);
+      await interaction.editReply({
+        components: [
+          new MessageActionRow()
+            .addComponents(
+              new MessageButton()
+                .setCustomId('pause')
+                .setLabel('Pause')
+                .setStyle('PRIMARY')
+                .setEmoji('⏸')
+                .setDisabled(true),
+              new MessageButton()
+                .setCustomId('stop')
+                .setLabel('Stopper')
+                .setStyle('DANGER')
+                .setEmoji('⏹')
+                .setDisabled(true)
+            )
+        ]
+      });
+    });
+
     const videoInfo = await ytdl.getBasicInfo(url);
     const resource = createAudioResource(stream, {
       inputType: StreamType.Arbitrary
@@ -96,7 +139,26 @@ module.exports = {
         return;
       } else if (i.customId === 'stop') {
         connection.destroy();
-        await i.reply({ content: 'La musique a bien été arrêtée', ephemeral: true });
+        await i.update({
+          components: [
+            new MessageActionRow()
+              .addComponents(
+                new MessageButton()
+                  .setCustomId('pause')
+                  .setLabel('Pause')
+                  .setStyle('PRIMARY')
+                  .setEmoji('⏸')
+                  .setDisabled(true),
+                new MessageButton()
+                  .setCustomId('stop')
+                  .setLabel('Stopper')
+                  .setStyle('DANGER')
+                  .setEmoji('⏹')
+                  .setDisabled(true)
+              )
+          ]
+        });
+        // await i.reply({ content: 'La musique a bien été arrêtée', ephemeral: true });
         return;
       }
     });
