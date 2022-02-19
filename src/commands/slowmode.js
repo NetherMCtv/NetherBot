@@ -9,12 +9,11 @@ module.exports = {
       return option
         .setName('secondes')
         .setDescription('Temps du mode lent (0 pour désactiver)')
+        .setMinValue(1)
         .setRequired(true);
     }),
 
   permission: 'MANAGE_CHANNELS',
-
-  canBeUsedEverywhere: false,
 
   async run(interaction, client, args, isMessage) {
     const channel = isMessage ? interaction.channel.id : interaction.channelId;
