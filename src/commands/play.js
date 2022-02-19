@@ -46,10 +46,7 @@ module.exports = {
     });
 
     let dataEmitted = 0;
-    stream.on('data', function(chunk) {
-      dataEmitted += chunk.length;
-      // console.log('on data', chunk.length, dataEmitted);
-    });
+    stream.on('data', chunk => dataEmitted += chunk.length);
 
     const wait = require('util').promisify(setTimeout);
     stream.on('end', async function() {
@@ -158,7 +155,6 @@ module.exports = {
               )
           ]
         });
-        // await i.reply({ content: 'La musique a bien été arrêtée', ephemeral: true });
         return;
       }
     });
@@ -193,29 +189,5 @@ module.exports = {
     });
     
     if (!isMessage && !interaction.isButton()) return;
-    console.log(interaction);
-  },
-
-  /**
-   * @param {string} url
-   */
-   async getAudioSource(url) {
-    // YouTube
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      return await ytdl(url, {
-        filter: 'audioonly'
-      });
-    }
-
-    // SoundCloud
-    //else if (url.includes('soundcloud.com')) {}
-
-    // Spotify
-    //else if (url.includes('spotify.com')) {}
-
-    // Aucune source
-    else {
-      console.error(`"${url}" is not an audio on YouTube, SoundCloud or Spotify`);
-    }
   }
 }
