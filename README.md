@@ -10,6 +10,10 @@
 </div>
 <p align="center">Bot Discord du streamer et YouTubeur <a href="https://www.twitch.tv/NetherMCtv">NetherMC</a>.</p>
 
+## Contribuer
+
+Voir [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
 Le bot est open-source sous license MIT. [Voir la license](LICENSE)
