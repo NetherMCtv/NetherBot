@@ -1,5 +1,5 @@
 const {
-  Client, Intents
+  Client, Intents: { FLAGS: Intents }
 } = require('discord.js');
 const fs = require('fs');
 const { REST } = require('@discordjs/rest');
@@ -9,8 +9,8 @@ require('dotenv').config();
 
 const client = new Client({
   intents: [
-    Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_VOICE_STATES
+    Intents.GUILDS, Intents.GUILD_MESSAGES, Intents.GUILD_MESSAGE_REACTIONS,
+    Intents.GUILD_VOICE_STATES, Intents.GUILD_MEMBERS
   ]
 });
 
