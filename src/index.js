@@ -4,6 +4,7 @@ const {
 const fs = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
+const { log } = require('./helpers/log');
 require('dotenv').config();
 
 const client = new Client({
@@ -40,13 +41,13 @@ const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN);
 
 (async () => {
   try {
-    console.log('Started refreshing application slash commands...');
+    log('info', 'Started refreshing application slash commands...');
 
     await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
 
-    console.log('Successfully reloaded application slash commands!');
+    log('success', 'Successfully reloaded application slash commands!');
   } catch (err) {
-    console.error(err);
+    log('error', err);
   }
 })();
 

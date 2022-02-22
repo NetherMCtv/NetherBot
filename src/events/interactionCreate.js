@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { log } = require('../helpers/log');
 
 module.exports = (interaction, client) => {
   if (!interaction.isCommand()) return;
@@ -7,7 +8,7 @@ module.exports = (interaction, client) => {
   const args = interaction.options._hoistedOptions;
 
   fs.readdir(`${__dirname}/../commands`, (err, files) => {
-    if (err) console.error(err);
+    if (err) log('error', err);
 
     files.map(async file => {
       if (!file.endsWith('.js')) return;

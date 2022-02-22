@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { log } = require('../helpers/log');
 
 module.exports = async (message, client) => {
 
@@ -9,7 +10,7 @@ module.exports = async (message, client) => {
   const command = args.shift().toLowerCase();
 
   fs.readdir(`${__dirname}/../commands`, (err, commands) => {
-    if (err) console.error(err);
+    if (err) log('error', err);
 
     commands.map(async file => {
       if (!file.endsWith('.js')) return;

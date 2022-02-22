@@ -5,6 +5,7 @@ const {
 	AudioPlayerStatus, StreamType, createAudioPlayer, createAudioResource, joinVoiceChannel
 } = require('@discordjs/voice');
 const ms = require('ms');
+const { log } = require('../helpers/log');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,8 +16,7 @@ module.exports = {
         .setName('url')
         .setDescription('Lien de la vidéo')
         .setRequired(true)
-    })
-  ,
+    }),
 
   async run(interaction, client, args, isMessage) {
     if (isMessage) {
@@ -37,12 +37,15 @@ module.exports = {
       highWaterMark: 1 << 25
     });
 
-    stream.on('error', err => client.channels.cache.get(interaction.channelId)?.send(err));
+    stream.on('error', err => {
+      log('error', err);
+      client.channels.cache.get(interaction.channelId)?.send(err)
+    });
 
     let size;
     stream.on('response', function(res) {
       size = res.headers['content-length'];
-      console.log(`Started to load "${videoInfo.videoDetails.title}" with ${size} bytes`);
+      log('info', `Started to load "${videoInfo.videoDetails.title}" with ${size} bytes`);
     });
 
     let dataEmitted = 0;
@@ -50,7 +53,7 @@ module.exports = {
 
     const wait = require('util').promisify(setTimeout);
     stream.on('end', async function() {
-      console.log(`Finished to load "${videoInfo.videoDetails.title}" with ${dataEmitted} bytes`);
+      log('success', `Finished to load "${videoInfo.videoDetails.title}" with ${dataEmitted} bytes`);
 
       await wait(15000);
       await interaction.editReply({

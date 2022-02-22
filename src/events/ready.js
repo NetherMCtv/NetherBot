@@ -1,9 +1,12 @@
+const { log } = require('../helpers/log');
+const chalk = require('chalk');
+
 module.exports = (client) => {
-  console.log(`Connecté en tant que ${client.user.tag}.`);
+  log('info', `Connecté en tant que ${chalk.bold(client.user.tag)}.`);
 
   const statuses = [
     ['sur Twitch', 'STREAMING'],
-    [`une vidéo de NetherMC`, 'WATCHING'],
+    ['une vidéo de NetherMC', 'WATCHING'],
     ['Minecraft', 'PLAYING']
   ];
   
