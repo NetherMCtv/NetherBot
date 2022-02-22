@@ -12,6 +12,7 @@
     "@discordjs/voice": "^0.8.0",
     "axios": "^0.25.0",
     "canvas": "^2.9.0",
+    "chalk": "4.1.2",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
     "ffmpeg": "^0.0.4",
