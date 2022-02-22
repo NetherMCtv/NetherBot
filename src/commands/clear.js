@@ -31,6 +31,6 @@ module.exports = {
     const message = `<a:yes:859024680489189388> **${msgToDelete} message${msgToDelete <= 1 ? '' : 's'} ont été supprimés.**`;
     await isMessage ?
       interaction.channel.send(message).then(m => setTimeout(() => m.delete(), 10000)) :
-      interaction.reply({content: message, ephemeral: true });
+      interaction.reply({ content: message, ephemeral: true });
   }
 }
